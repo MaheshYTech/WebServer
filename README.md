@@ -9,12 +9,8 @@ this is simmple WEBSERVER you can do following thing.
 
    Things tobe done to run Diyana Webserver.
 
-   1. Create a Folder Under Named "Diyana" under Root Directory of (C or D).
-   Download Webserver.exe to that folder. and run it.
-
-   if its ask for dependency files. download other files from source folder ,
-   compile and build exe under visual studio 2019, and copy it to [Diyana] folder.
-   and run it.
+   1. Create a Folder Under Named [DIYANA] under Root Directory of (C or D).
+   Download all files and folder to local folder [DIYANA] you just created.
 
    Under Diyana Folder , Download all files and folder from GITHUB DIYANA folder. 
 
@@ -25,17 +21,21 @@ this is simmple WEBSERVER you can do following thing.
    4. Images   [Folder]
    5. Files    [Folder]
 
-   Files to be  Download from [GITHUB DIYANA] Folder
+   Files to be  Downloaded from [GITHUB DIYANA] Folder
    
    1. sales.7z (this is sample file to show demo)
 
    Create One Folder [Sales] under [DIYANA] on your local system.
    extract all files from sales.zip to [SALES] folder.
 
-   run Webserver.exe from  [DIYANA] on your local system.
+   run Webserver.exe from  [DIYANA] from your local system.
+
+   if its ask for dependency files. download other files from source folder ,
+   compile and build exe under visual studio 2019, and copy it to local  [DIYANA] folder.
+   and run it.
 
    open browser (Chrome or firefox)
-
+   
    type or copy paste url
    http://127.0.0.1:8080/Sales/Index.html
 
