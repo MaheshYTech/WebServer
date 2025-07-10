@@ -25,9 +25,28 @@ this is simmple WEBSERVER you can do following thing.
    4. Images   [Folder]
    5. Files    [Folder]
 
-   Files to Download from GITHUB DIYANA Folder
+   Files to be  Download from [GITHUB DIYANA] Folder
    
-   1. sales.7z
+   1. sales.7z (this is sample file to show demo)
+
+   Create One Folder [Sales] under [DIYANA] on your local system.
+   extract all files from sales.zip to [SALES] folder.
+
+   run Webserver.exe from  [DIYANA] on your local system.
+
+   open browser (Chrome or firefox)
+
+   type or copy paste url
+   http://127.0.0.1:8080/Sales/Index.html
+
+   if you find any problem
+   send a mail Email Id :: maheshy.tech@gmail.com
+
+   
+
+   
+   
+   
    
 
    
