@@ -1,55 +1,59 @@
-WELCOME TO DIAYANA WEBSERVER.
+
+                                                   **       *     *   *      *       *    *     *   
+                                                   *  *     *      * *      * *      * *  *    * *  
+                                                   *   *    *       *      *   *     *  * *   *   * 
+                                                   *   *    *       *      *   *     *    *   *   * 
+                                                   *  *     *       *      *****     *    *   ***** 
+                                                   **       *       *      *   *     *    *   *   * 
+
+
+
+                                       *      *  *****  *****        ***** *****  *****  *       * ***** ***** 
+                                       *      *  *      *    *      *      *      *    *  *     *  *     *    * 
+                                       *  *   *  ****   *****       *****  *****  * ***    *   *   ***** * ***
+                                       * *  * *  *      *    *           * *      *   *     * *    *     *   * 
+                                       **    **  *****  *****       *****  *****  *    *     *     ***** *    *
+                                       
 this is simmple WEBSERVER you can do following thing.
 
-1. Display Videos.
-2. Display Images
-3. Download Files.
-4. POST FORM Data with multiple files.
-5. POST Normal Data.
+Display Videos.
 
-   Things tobe done to run Diyana Webserver.
+Display Images
 
-   1. Create a Folder Under Named [DIYANA] under Root Directory of (C or D).
-   Download all files and folder to local folder [DIYANA] you just created.
+Download Files.
 
-   Under Diyana Folder , Download all files and folder from GITHUB DIYANA folder. 
+POST FORM Data and multiple files.
 
-   folder to be copied
-   1. Config   [Folder]
-   2. css      [Folder]
-   3. script   [Folder] 
-   4. Images   [Folder]
-   5. Files    [Folder]
+POST Normal Data.
 
-   Files to be  Downloaded from [GITHUB DIYANA] Folder
-   
-   1. sales.7z (this is sample file to show demo)
+Things tobe done to run Diyana Webserver.
 
-   Create One Folder [Sales] under [DIYANA] on your local system.
-   extract all files from sales.zip to [SALES] folder.
+Download [Diana.7z] from  [Webserver] Folder of GITHUB Site
 
-   run Webserver.exe from  [DIYANA] from your local system.
+Create a Folder  Named [DIYANA] under Root Directory of (C or D). 
+Extract all files from [Diana.7z] to  [DIYANA] folder you have created 
+on local drive.
 
-   if its ask for dependency files. download other files from source folder ,
-   compile and build exe under visual studio 2019, and copy it to local  [DIYANA] folder.
-   and run it.
+1.  Config          [Folder]
+2.  css             [Folder]
+3.  Download        [Folder]
+4.  Files           [Folder]
+5.  Images          [Folder]
+6.  Purchase        [Folder]  Sample Folder
+7.  Sales           [Folder]  Sample Folder
+8.  script          [Folder]
+9.  Index.html 
+10. Webserver.exe   Main File 
 
-   open browser (Chrome or firefox)
-   
-   type or copy paste url
-   http://127.0.0.1:8080/Sales/Index.html
+run Webserver.exe from [DIYANA] from your local system.
 
-   if you find any problem
-   send a mail Email Id :: maheshy.tech@gmail.com
+if its ask for dependency files. download other files from source folder , compile and build exe under visual studio 2019, and copy it to local [DIYANA] folder. and run it.
 
-   
+following Folder and Files got extracted.
 
-   
-   
-   
-   
+open browser (Chrome or firefox)
 
-   
-   
-   
-  
+type or copy paste url 
+http://127.0.0.1:8080/Sales/Index.html 
+
+if you find any problem send a mail Email Id :: maheshy.tech@gmail.com
