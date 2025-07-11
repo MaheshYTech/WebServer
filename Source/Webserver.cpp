@@ -58,6 +58,7 @@ string getContentType(string config_file, string fileName) {
     int start = 0, end = 0;
 
     start = lines.find(extn.c_str());
+
     if (start != string::npos) {
         end = lines.find("\r\n", start);
         if (end != string::npos) {
@@ -100,6 +101,7 @@ string numToString(int num) {
 
     return strBuff;
 }
+
 string getFileName(string qryStr) {
     string fileName = "";
 
@@ -160,6 +162,58 @@ typedef struct REQT_HEADER_SETTING {
     int ACTION_TYPE;  // 1001 ordinary process , 1002 Attachment
 };
 
+void printBanner(string bannerFile, string bannerName ) {
+    stringstream ss;
+    string line;
+    string banner;
+    string bannerStart;
+    string bannerEnd;
+    int len = 0;
+    ifstream fs(bannerFile);
+    //fs.open("D:\\Websrvr\\Config\\systems.txt");
+
+    if (!fs.is_open()) {
+        string line = "DIANA WEB SERVER";
+        len = line.size();
+        banner.append((120 - len) / 2, ' ');
+        banner.append(line);
+        cout << banner << endl;
+        return;
+    }
+
+    ss << fs.rdbuf();
+    bool FOUND = false;
+
+    banner.append("\r\n\r\n");
+    bannerStart.append("[]" + bannerName);
+    bannerEnd.append("[/]" + bannerName);
+
+    while (std::getline(ss, line)) {
+        if (line.find(bannerStart.c_str()) != string::npos) {
+            len = std::stoi(line.substr(line.rfind("-") + 1));
+            len = (120 - len) / 2;
+            FOUND = true;
+            continue;
+        }
+
+        if (line.find(bannerEnd.c_str()) != string::npos) {
+            break;
+            continue;
+        }
+
+        if (FOUND) {
+            banner.append(len, ' ');
+            banner.append("" + line + "\r\n");
+            //banner.insert(0, len, ' ');
+            //cout << "";
+        }
+    }
+
+    std::cout << banner << endl;
+
+    fs.close();
+}
+
 class WEBSERV {
 private:
     string base_folder;
@@ -170,14 +224,14 @@ private:
         char dirBuff[256] = { NULL };
 
 
-        //strcpy_s(dirBuff, "D:\\Websrvr\\");
-        _getcwd(dirBuff, sizeof(dirBuff));
+        strcpy_s(dirBuff, "D:\\Websrvr\\");
+        //_getcwd(dirBuff, sizeof(dirBuff));
 
         base_folder = "";
         base_folder.append(dirBuff);
         base_folder.append("\\");
 
-        cout << base_folder << endl;
+        //cout << base_folder << endl;
     }
 
     void initBaseResp() {
@@ -203,36 +257,44 @@ private:
         }
     }
 
+    string getLine(string src, string startStr, string endStr) {
+        int start = src.find(startStr);
+        int end = src.find(endStr, start);
+
+        if (end == string::npos) return "";
+
+        //string line = src.substr(start, end - start);
+
+        return src.substr(start, end - start);
+    }
+
     void setResponseAction() {
         string ss(buffer);
         string line = "";
 
-        //reqtHeaderSetting.Sec_Fetch_Mode = getLine(ss, "Sec-Fetch-Mode: ");
-        //reqtHeaderSetting.Sec_Fetch_User = getLine(ss, "Sec-Fetch-User: ");
-
-        //sscanf(buffer, "Sec-Fetch-Site: %s\r\n", reqtHeaderSetting.Sec_Fetch_Site);
-        //sscanf(buffer, "Sec-Fetch-Mode: %s\r\n", reqtHeaderSetting.Sec_Fetch_Mode);
-        //sscanf(buffer, "Sec-Fetch-User: %s\r\n", reqtHeaderSetting.Sec_Fetch_User);
-
-        line = getLine(ss, "Sec-Fetch-Site: ");
+        //line = getLine(ss, "Sec-Fetch-Site: ");
+        line = getLine(buffer, "Sec-Fetch-Site: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_Site = line.substr(line.find(": ") + 2);
             //sscanf(line.c_str(), "Sec-Fetch-Site: %s", reqtHeaderSetting.Sec_Fetch_Site);
         }
 
-        line = getLine(ss, "Sec-Fetch-Mode: ");
+        //line = getLine(ss, "Sec-Fetch-Mode: ");
+        line = getLine(buffer, "Sec-Fetch-Mode: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_Mode = line.substr(line.find(": ") + 2);
             //sscanf(line.c_str(), "Sec-Fetch-Mode: %s", reqtHeaderSetting.Sec_Fetch_Mode);
         }
 
-        line = getLine(ss, "Sec-Fetch-User: ");
+        //line = getLine(ss, "Sec-Fetch-User: ");
+        line = getLine(buffer, "Sec-Fetch-User: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_User = line.substr(line.find(": ") + 2);
-            sscanf(line.c_str(), "Sec-Fetch-User: %s", reqtHeaderSetting.Sec_Fetch_User);
+            //sscanf(line.c_str(), "Sec-Fetch-User: %s", reqtHeaderSetting.Sec_Fetch_User);
         }
 
-        line = getLine(ss, "Sec-Fetch-Dest: ");
+        //line = getLine(ss, "Sec-Fetch-Dest: ");
+        line = getLine(buffer, "Sec-Fetch-Dest: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_Dest = line.substr(line.find(": ") + 2);
             //sscanf(line.c_str(), "Sec-Fetch-Dest: %s", reqtHeaderSetting.Sec_Fetch_Dest);
@@ -261,6 +323,16 @@ private:
         content_type = getContentType(config_file, fileName);
     }
 
+    void print_baner() {
+        string tempStr;
+        tempStr.append(base_folder);
+        tempStr.append("\\Config\\Banner.txt");
+
+        printBanner(tempStr, "DIYANA");
+        printBanner(tempStr, "WEBSERVER");
+        cout << endl << endl;
+    }
+
 public:
     string httpReqStr;
     string httpBaseResp;
@@ -282,12 +354,17 @@ public:
     WEBSERV(){
         physical_folder = base_folder;
         initProcess();
+        
+        print_baner();
+        cout << endl;
     }
 
     WEBSERV(int port) {
         physical_folder = base_folder;
         LISTEN_PORT = port;
         initProcess();
+
+        print_baner();
     }
 
     string initServerSocket() {
@@ -304,8 +381,7 @@ public:
         serverAddr.sin_port = htons(LISTEN_PORT);
 
         bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
-        printBanner();
-        cout << "Listen on Port " << LISTEN_PORT << endl;
+        cout << "Listening on Port " << LISTEN_PORT << endl;
         listen(serverSocket, SOMAXCONN);
 
         clientComunicate();
@@ -768,6 +844,8 @@ public:
         cout << "*** JPEG **** " << endl;
     }
 
+
+
     void sendVideoFile() {
         int startPos = 0;
         int endPos = 0;
@@ -896,20 +974,6 @@ public:
         }
     }
 
-    void printBanner() {
-        cout << endl;
-        cout << "*****************************************************************************************************************" << endl;
-        cout << "\t\t                 DD           I      Y   Y      A       N    N     A   " << endl;
-        cout << "\t\t                 D  D         I       Y Y      A A      N N  N    A A  " << endl;
-        cout << "\t\t                 D   D        I        Y      A   A     N  N N   A   A " << endl;
-        cout << "\t\t                 D   D        I        Y      A   A     N    N   A   A " << endl;
-        cout << "\t\t                 D  D         I        Y      AAAAA     N    N   AAAAA " << endl;
-        cout << "\t\t                 DD           I        Y      A   A     N    N   A   A " << endl;
-        cout << "*****************************************************************************************************************" << endl;
-        cout << endl << endl;
-        cout << "\t\t\t\t\t\t\tWEB SERVER" << endl;
-        cout << endl << endl;
-    }
 };
 
 vector<string> SplitStr(string& strData, string delimeter) {
