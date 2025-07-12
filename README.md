@@ -14,7 +14,9 @@
                                        * *  * *  *      *    *           * *      *   *     * *    *     *   * 
                                        **    **  *****  *****       *****  *****  *    *     *     ***** *    *
                                        
-this is simmple WEBSERVER you can do following thing.
+
+This is simmple WEBSERVER, 
+you can do following thing.
 
 Display Videos.
 
@@ -22,9 +24,20 @@ Display Images
 
 Download Files.
 
+GET Query Data
+
 POST FORM Data and multiple files.
 
 POST Normal Data.
+
+
+Present Version only  [POST, GET] will be processed. 
+and text posting  will be processed.
+
+In forthcoming version update , 
+1. [DELETE, PUT] will be introduced.
+2. JSON format will be introduced.
+3. Diffarent Error Message will be Handled.
 
 Things tobe done to run Diyana Webserver.
 
@@ -32,7 +45,8 @@ Download [Diana.7z] from  [Webserver] Folder of GITHUB Site
 
 Create a Folder  Named [DIYANA] under Root Directory of (C or D). 
 Extract all files from [Diana.7z] to  [DIYANA] folder you have created 
-on local drive.
+on local drive.  
+Download [Webserver.exe] to [Diyana] local directory.
 
 1.  Config          [Folder]
 2.  css             [Folder]
