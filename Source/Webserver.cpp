@@ -1,8 +1,18 @@
+#pragma once
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+
 #define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #include <Winsock2.h>
 #include <WS2tcpip.h>
+#include <winsock.h>
+
+#define _WINSOCKAPI_
+#pragma comment(lib , "Ws2_32.lib")
+
+
 #include <stdio.h>
 #include <conio.h>
 #include <string.h>
@@ -18,9 +28,16 @@
 #include <direct.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <windows.h>
+
+#include <cassert>
+#include "json.hpp"
+
+#define  DEVLOP_MODE "DEPLOY"
 
 using namespace std;
 
+using jsons = nlohmann::json;
 
 vector<string> SplitStr(string& strData, string delimeter);
 
@@ -154,15 +171,20 @@ typedef struct IP_DETAILS {
 };
 
 typedef struct REQT_HEADER_SETTING {
+    string http_method;
+    string http_method_type_1;
+    string http_method_type_2;
     string Sec_Fetch_Site;
     string Sec_Fetch_Mode;
     string Sec_Fetch_User;
     string Sec_Fetch_Dest;
+    string content_type;
 
     int ACTION_TYPE;  // 1001 ordinary process , 1002 Attachment
 };
 
-void printBanner(string bannerFile, string bannerName ) {
+
+void printBanner(string bannerFile, string bannerName , int defaults ) {
     stringstream ss;
     string line;
     string banner;
@@ -173,11 +195,13 @@ void printBanner(string bannerFile, string bannerName ) {
     //fs.open("D:\\Websrvr\\Config\\systems.txt");
 
     if (!fs.is_open()) {
-        string line = "DIANA WEB SERVER";
-        len = line.size();
-        banner.append((120 - len) / 2, ' ');
-        banner.append(line);
-        cout << banner << endl;
+        if (defaults == 1) {
+            string line = "DIANA WEB SERVER";
+            len = line.size();
+            banner.append((120 - len) / 2, ' ');
+            banner.append(line);
+            cout << banner << endl;
+        }
         return;
     }
 
@@ -216,22 +240,62 @@ void printBanner(string bannerFile, string bannerName ) {
 
 class WEBSERV {
 private:
+    string MODE_OP = "DEPLOY";
     string base_folder;
     string content_type = "";
     REQT_HEADER_SETTING reqtHeaderSetting;
 
-    void updateWebDir() {
+    string getRoot() {
+        ifstream ifs;
         char dirBuff[256] = { NULL };
+        char readBuffer[80] = { NULL };
 
+        _getcwd(dirBuff, sizeof(dirBuff));
 
-        strcpy_s(dirBuff, "D:\\Websrvr\\");
-        //_getcwd(dirBuff, sizeof(dirBuff));
+        string config_file = string(dirBuff) + "//config.txt";
+
+        ifstream fs(config_file, ios::binary);
+        
+        if (!fs.is_open()) {
+            cout << config_file << " Not Found " << "\n";
+            exit(0);
+        }
+
+        fs.read(readBuffer, sizeof(readBuffer));
+
+        fs.close();
+
+        cout << config_file << "\n";
+        config_file = string(readBuffer);
+        config_file = config_file.substr(config_file.find("=") + 1);
+        return config_file;
+    }
+
+    bool updateWebDir() {
+        //char dirBuff[256] = { NULL };
+        string dirBuff = { NULL };
+
+        //if (MODE_OP != "DEPLOY") {
+        //    strcpy_s(dirBuff, "D:\\Websrvr\\");
+        //}
+        //else {
+        //    _getcwd(dirBuff, sizeof(dirBuff));
+        //}
+
+        dirBuff = getRoot();
+
+        //strcpy(dirBuff , getRoot().c_str());
+
+        if (dirBuff.length() <= 0) {
+            cout << "config.txt Not Found, under working directory" << "\n";
+            return false;
+        }
 
         base_folder = "";
         base_folder.append(dirBuff);
         base_folder.append("\\");
 
-        //cout << base_folder << endl;
+        return true;
     }
 
     void initBaseResp() {
@@ -263,41 +327,36 @@ private:
 
         if (end == string::npos) return "";
 
-        //string line = src.substr(start, end - start);
-
         return src.substr(start, end - start);
     }
 
-    void setResponseAction() {
+    void setRequestAction() {
         string ss(buffer);
         string line = "";
 
-        //line = getLine(ss, "Sec-Fetch-Site: ");
+        line = getLine(buffer, "Content-Type: ", "\r\n");
+        if (line.size() > 0) {
+            reqtHeaderSetting.content_type = line.substr(line.find(": ") + 2);
+        }
+
         line = getLine(buffer, "Sec-Fetch-Site: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_Site = line.substr(line.find(": ") + 2);
-            //sscanf(line.c_str(), "Sec-Fetch-Site: %s", reqtHeaderSetting.Sec_Fetch_Site);
         }
 
-        //line = getLine(ss, "Sec-Fetch-Mode: ");
         line = getLine(buffer, "Sec-Fetch-Mode: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_Mode = line.substr(line.find(": ") + 2);
-            //sscanf(line.c_str(), "Sec-Fetch-Mode: %s", reqtHeaderSetting.Sec_Fetch_Mode);
         }
 
-        //line = getLine(ss, "Sec-Fetch-User: ");
         line = getLine(buffer, "Sec-Fetch-User: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_User = line.substr(line.find(": ") + 2);
-            //sscanf(line.c_str(), "Sec-Fetch-User: %s", reqtHeaderSetting.Sec_Fetch_User);
         }
 
-        //line = getLine(ss, "Sec-Fetch-Dest: ");
         line = getLine(buffer, "Sec-Fetch-Dest: ", "\r\n");
         if (line.size() > 0) {
             reqtHeaderSetting.Sec_Fetch_Dest = line.substr(line.find(": ") + 2);
-            //sscanf(line.c_str(), "Sec-Fetch-Dest: %s", reqtHeaderSetting.Sec_Fetch_Dest);
         }
 
         if (reqtHeaderSetting.Sec_Fetch_Site == "same-origin" &&
@@ -310,12 +369,12 @@ private:
         else {
             reqtHeaderSetting.ACTION_TYPE = 1001;
         }
-        
-        //std::begin(ReqVect.begin(), "");
     }
 
     void initProcess() {
-        updateWebDir();
+        if (!updateWebDir()) {
+            exit(0);
+        }
     }
 
     void updateContentType(string fileName) {
@@ -328,8 +387,9 @@ private:
         tempStr.append(base_folder);
         tempStr.append("\\Config\\Banner.txt");
 
-        printBanner(tempStr, "DIYANA");
-        printBanner(tempStr, "WEBSERVER");
+        printBanner(tempStr, "DIYANA" , 1);
+        printBanner(tempStr, "WEBSERVER" , 0);
+
         cout << endl << endl;
     }
 
@@ -337,6 +397,7 @@ public:
     string httpReqStr;
     string httpBaseResp;
     string httpResp;
+    string wserver_root_path;
     string file_path;
     string reqt_type;
     string physical_folder;
@@ -353,17 +414,23 @@ public:
 
     WEBSERV(){
         physical_folder = base_folder;
-        initProcess();
-        
-        print_baner();
         cout << endl;
     }
 
     WEBSERV(int port) {
         physical_folder = base_folder;
         LISTEN_PORT = port;
-        initProcess();
+    }
 
+    
+    void startWebServer(string mode) {
+        if (mode.size() > 0) {
+            MODE_OP = mode;
+        }
+
+        
+
+        initProcess();
         print_baner();
     }
 
@@ -377,23 +444,31 @@ public:
 
     void bindAndListen() {
         serverAddr.sin_family = AF_INET;
-        serverAddr.sin_addr.S_un.S_addr = INADDR_ANY;
+        serverAddr.sin_addr.S_un.S_addr =  INADDR_ANY;
         serverAddr.sin_port = htons(LISTEN_PORT);
 
-        bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
+        int bindResult = ::bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
+        if (bindResult == SOCKET_ERROR) {
+            std::cerr << "bind() failed: " << WSAGetLastError() << std::endl;
+            return ;
+        }
+
         cout << "Listening on Port " << LISTEN_PORT << endl;
         listen(serverSocket, SOMAXCONN);
 
-        clientComunicate();
+        startComunicate();
     }
 
-    void clientComunicate() {
+    void startComunicate() {
         int clientSize;
+        char errMsg[256];
+        IP_DETAILS ip_detail;
         while (true) {
-            IP_DETAILS ip_detail;
             clientSize = sizeof(clientAddr);
 
             clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientSize);
+
+            int lastError = WSAGetLastError();
 
             if (clientSocket == INVALID_SOCKET) {
                 continue;
@@ -410,14 +485,14 @@ public:
 
             IN_ADDR client_ip = clientAddr.sin_addr;
 
+            setRequestAction();
+
             updateReqTable(buffer, "\r\n");
 
             reqt_type = getReqtType(ReqVect[0]);
             if (reqt_type != "POST") {
                 procesGetReq(ReqVect[0]);
             }
-
-            //updateContentType(file_name);
 
             ip_detail.update_ip_detail(clientAddr);
 
@@ -433,7 +508,6 @@ public:
             initBaseResp();
 
 
-            setResponseAction();
             
             if (reqt_type == "POST") {
                 if ((string(buffer)).find("boundary=") != string::npos) {
@@ -442,15 +516,13 @@ public:
                 else {
                     postProcessNormalData();
                 }
-
-            }else {
-                procesGetFileDownload(file_type);
-                //if (reqtHeaderSetting.ACTION_TYPE == 1002) {
-                //    procesGetFileDownload(file_type);
-                //}
-                //else {
-                //    procesGetFile(file_type);
-                //}
+            }else if(reqt_type == "GET"){
+                if (reqtHeaderSetting.http_method_type_1 != "Query") {
+                    procesGetFileDownload(file_type);
+                }
+                else {
+                    processGetReqtQuery(ReqVect[0]);//
+                }
             }
             
             closesocket(clientSocket);
@@ -521,8 +593,11 @@ public:
         cout << post_data << endl;
     }
 
+
+
     void postProcessFormData() {
         char* boudryLine = strstr(buffer, "boundary=");
+        int data_to_read_len = 0;
         int byteRcvd = 0;
         int startPos = 0;
         int endPos = 0;
@@ -541,6 +616,9 @@ public:
 
         startPos = 0;
         endPos = 0;
+
+        string content_len_str =  getLine(buffer, "Content-Length: ", "\r\n");
+        sscanf(content_len_str.c_str(), "Content-Length: %ul", &data_to_read_len);
 
         dataUploaded.append(buffer);
         startPos = dataUploaded.find("boundary=") + string("boundary=").length();
@@ -705,22 +783,155 @@ public:
         pres_req_type =  "";
     }
 
+    void replace_all(string& src, const string& from, const string& to) {
+        int pos = 0;
+        while (1) {
+            pos = src.find(from);
+            if (pos == string::npos) {
+                break;
+            }
+            src.replace(pos, from.length(), to);
+        }
+    }
+
+
+
+    void urlDecode(string& src) {
+        string encodeVal = "";
+        int start = 0, end = 0;
+        int ival = 0;
+        char ch[3] = { ' ' , NULL };
+
+        while ((end = src.find("%", start)) != string::npos) {
+            encodeVal = src.substr(end + 1, 2);
+            sscanf(encodeVal.c_str(), "%x", &ival);
+            sprintf(ch, "%c", ival);
+            src.replace(end, 3, ch);
+            start = end + 1;
+        }
+
+        cout << src << endl;
+    }
+
+    void parseJsonString(string jsonString) {
+        jsons jsonData = jsons::parse(jsonString);
+        string strVal;
+        
+        bool isObject = false;
+        stringstream ss;
+        for (auto items : jsonData.items()) {
+            //cout << items.key() << " " << items.value() << endl;
+            isObject = false;
+            if (items.value().is_object()) {
+                for (auto items1 : items.value().items()) {
+                    //cout << items1.key() << " " << items1.value() << endl;
+                    ss << items1.key() << " is " << items1.value() << "\r\n";
+                }
+                cout << endl;
+                isObject = true;
+            }
+            else if(items.value().is_array()){
+                ss << items.key() << " -- is " << endl;
+                for (auto items1 : items.value().items()) {
+                    //cout << items1.value() << " -- ";
+                    ss <<  items1.value() << "--" ;
+                }
+                cout << endl;
+                ss << endl;
+                isObject = true;
+            }
+
+            if (!isObject) {
+                ss << items.key() << " is  "  <<  items.value() << "\r\n";
+            }
+        }
+
+        cout << ss.str() << endl;
+
+        int cont_len = ss.str().size();
+
+        httpBaseResp = "HTTP/1.1 200 OK\r\n" ;
+        httpBaseResp = httpBaseResp + "Content-Type: text/plain\r\n";
+        httpBaseResp = httpBaseResp + "Content-Length: " +  std::to_string(cont_len) + "\r\n" ;
+        httpBaseResp = httpBaseResp + "Connection: close\r\n\r\n";
+        httpBaseResp = httpBaseResp + ss.str();
+
+        sendRespHeaderToClient();
+        return;
+    }
+
+    void processGetReqtQuery(const string reqStr) {
+        string qryPart = reqStr.substr(reqStr.find("?") + 1);
+        string part1 = "";
+        string part2 = "";
+
+        qryPart = qryPart.substr(0, qryPart.rfind(" HTTP/1.1"));
+        qryPart = qryPart.substr(qryPart.find("=") + 1);
+        urlDecode(qryPart);
+
+        if (reqtHeaderSetting.content_type ==  "application/json") {
+            parseJsonString(qryPart);
+            return ;
+        }
+
+        vector<string>  vctrQryList = SplitStr(qryPart, "&");
+        cout << qryPart << endl;
+
+        httpReqStr = "";
+        for (auto val : vctrQryList) {
+            int start = val.find("=");
+            //string tempVal = val + "\n";
+            //sscanf(tempVal.c_str(), "%s=%s\n", part1, part2);
+            part1 = val.substr(0, start);
+            part2 = val.substr(start + 1);
+            httpReqStr = httpReqStr + part1  + " is " + part2 + "\r\n";
+        }
+
+        int content_len = httpReqStr.size();
+
+        httpBaseResp = "HTTP/1.1 200 OK\r\n";
+        //httpBaseResp = httpBaseResp + "Content-Type: application/octet-stream\r\n";
+        httpBaseResp = httpBaseResp + "Content-Type: text/plain; charset=utf-8" +  std::to_string(content_len)  + "\r\n";
+        httpBaseResp = httpBaseResp + "Connection: close\r\n\r\n";
+        httpBaseResp = httpBaseResp + httpReqStr;
+
+        sendRespHeaderToClient();
+        return;
+    }
+
     void procesGetReq(string reqStr) {
         int start = 4;
         int end = reqStr.find(" HTTP/1.1");
         string getData = reqStr.substr(4, end-4);
         string file_name = "";
         string file_extn = "";
+        string getProcessType = "";
 
         file_path = getData;
 
-        file_name = getFileName(reqStr);
-        file_extn = getFileExtn(file_name);
+        end = getData.find("?", 0);
 
-        updateContentType(file_name);
+        if (end == string::npos) {
+            file_name = getFileName(reqStr);
+            file_extn = getFileExtn(file_name);
+            updateContentType(file_name);
+            reqtHeaderSetting.http_method_type_1 = "Files";
+        }
+        else {
+            file_name = "";
+            file_extn = "";
+            getProcessType = "Query";
+            reqtHeaderSetting.http_method = "GET";
+            reqtHeaderSetting.http_method_type_1 = "Query";
+        }
 
-        if ((end = getData.find("?", 0)) != string::npos) {
+
+
+        if (getProcessType == "Query") {
             file_type = "Query";
+            //processGetReqtQuery(reqStr);//
+            //    .parseJsonString("");
+            return;
         }else if (file_name.length() > 1 ) {
             file_type = file_extn; // getData.substr(end);
             cout <<  "File Type Is :: :: "  <<  file_type << endl;
@@ -734,7 +945,7 @@ public:
             }
         }
 
-        cout << getData << endl;
+        //cout << getData << endl;
     }
 
     void procesGetFileDownload(string reqStr) {
@@ -984,6 +1195,7 @@ vector<string> SplitStr(string& strData, string delimeter) {
     while (1) {
         end = strData.find(delimeter, start);
         if (end == string::npos) {
+            strVect.push_back(strData.substr(start));
             break;
         }
         strVect.push_back(strData.substr(start, end - start));
@@ -994,10 +1206,39 @@ vector<string> SplitStr(string& strData, string delimeter) {
 }
 
 
-int main()
+void clearScreen() {
+    for (int i = 0; i <= 40; i++) {
+        cout << "" << endl;
+    }
+}
+
+
+
+int main(int argc, char *argv[])
 {
+    string mode_op = "";
+
+    //return 0;
     WEBSERV wsrv =  WEBSERV(8080);
     WSADATA wsData;
+
+
+
+    if (argc > 1) {
+        mode_op = argv[1];
+    }
+    else {
+        //mode_op = "LOCAL";
+        mode_op = "DEPLOY";
+    }
+
+
+
+    mode_op = DEVLOP_MODE;
+
+    clearScreen();
+    
+    wsrv.startWebServer(mode_op);
 
     //SOCKET serverSocket, clientSocket;
     //sockaddr_in serverAddr, clientAddr;
