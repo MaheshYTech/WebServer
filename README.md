@@ -70,4 +70,4 @@ open browser (Chrome or firefox)
 type or copy paste url 
 http://127.0.0.1:8080/Sales/Index.html 
 
-if you find any problem send a mail Email Id :: maheshy.tech@gmail.com
+if you find any problem send a mail me to  maheshy.tech@gmail.com
