@@ -1,0 +1,344 @@
+<html>
+<head>
+<link rel="stylesheet" href="/css/bootstrap.css">
+<script src="/Script/bootstrap.js"></script>
+<script src="/Script/jquery-3.4.1.js"></script>
+<!-- <script src="/Sales/site.cfg" type="text/javascript" ></script> -->
+
+<style>
+   .center_ele{
+	  text-align: center;
+	}
+	
+	.tbl_data{
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 20px;
+		border: 1px solid darkblue;	
+	}
+
+    .tbl_data thead tr th{
+		height: 40px;
+		padding: 5px;
+		border: 1px solid darkblue;
+		background-color: maroon;
+		color: white;
+		font-weight: bold;
+	}
+
+	.tbl_data tbody tr td{
+		padding: 5px;
+		border: 1px solid darkblue;
+	}
+	
+	.h2_sample{
+		padding: 10px;
+		text-align: center;
+		background-color: maroon;
+		color: white;	
+	}
+	
+	.h3_sample{
+		background-color: darkblue;
+		color: white;
+		font-weight: bold;
+		text-align: center;
+		padding: 5px;
+	}
+</style>
+</head>
+<body>
+<div class="h2_sample">
+	<h2>Diyana Web Server Demo</h2>
+</div>
+<h1 class="center_ele">Sales Report</h1>
+<div style="text-align: center">
+	<div>
+		<h3 class="h3_sample">Video Streaming Sample</h3>
+	</div>
+	<video controls width="240" height="240"  >
+	  <source src="/Sales/Images/Krishna.mp4"  type="video/mp4">
+	  <!-- <source src="/Sales/Images/Naziya.mp4"  type="video/mp4"> -->
+	</video>
+</div>
+<div style="text-align: center">
+<div>
+	<h3 class="h3_sample">Table Sample</h3>
+</div>
+<table class="tbl_data">
+<thead>
+<tr>
+<th style="width: 150px">Items</th>
+<th style="width: 75px">Qty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>SSD</td>
+	<td>140</td>	
+</tr>
+<tr>
+	<td>Mouse</td>
+	<td>40</td>	
+</tr>
+<tr>
+	<td>Keyboard</td>
+	<td>90</td>	
+</tr>
+</tbody>
+</table>
+</div>
+<div  style="text-align: center;width: 100%;padding: 10px;">
+	<div>
+		<h3 class="h3_sample">File Download Sample</h3>
+	</div>
+	<p style="">
+		<!-- <a href="/Sales/Files/bcopy.xlsx">Files To Download</a> -->
+		<button style="
+			background-color: darkgray; 
+			color: darkblue; 
+			border: 1px solid white;
+			font-weight: bold;
+			padding: 5px;
+			border-radius: 10px;
+			height: 40px;
+		">
+			<a href="/Sales/Images/Diana.jpeg" style="color: darkblue; padding: 5px;">Click To Download Files</a>			
+		</button>
+	</p>
+</div>
+<div>
+	<div>
+		<h3 class="h3_sample">POST Normal Data  Sample</h3>
+	</div>
+	<div>
+		<p>
+			<label>Name</label>
+			<input type="text" id="inp_name" name="txt_name" value="Mahesh" >
+		</p>		
+		<p>
+			<label>Designation</label>
+			<input type="text" id="inp_desig" name="txt_desig"  value="Software Engineer" >
+		</p>			
+		<p>	
+			<button id="btn_sub_data">Submit</button>
+		</p>
+	</div>
+</div>
+<div>
+	<div>
+		<h3 class="h3_sample">GET Query Normal Data  Sample</h3>
+	</div>
+	<div>
+		<p>
+			<label>Name</label>
+			<input type="text" id="inp_name_get" name="txt_name" value="Mahesh" >
+		</p>		
+		<p>
+			<label>Designation</label>
+			<input type="text" id="inp_desig_get" name="txt_desig"  value="Software Engineer" >
+		</p>			
+		<p>	
+			<button id="btn_get_qry">Submit</button>
+		</p>
+	</div>
+</div>
+<div style="">
+	<div>
+		<h3 class="h3_sample">POST Form Data and Multiple Files Sample</h3>
+	</div>
+	<div style="width: 10%;margin-left: auto; margin-right: auto;">
+	<form method="POST"  enctype="multipart/form-data">
+		<p>
+			<label>Files</label>
+			<input type="file" id="inp_file" name="inp_files" multiple=true>
+		</p>
+		<p>
+			<label>Name</label>
+			<input type="text" id="inp_name" name="txt_name" value="Mahesh" >
+		</p>		
+		<p>
+			<label>Designation</label>
+			<input type="text" id="inp_desig" name="txt_desig"  value="Software Engineer" >
+		</p>			
+		<p>
+			<label>Mobile No</label>
+			<input type="text" id="inp_mobile" name="txt_mobile"  value="8971491339" >
+		</p>			
+		
+		<p style="display: flex; flex-direction: row; padding-top: 4px;">
+			<input type="button" id="inp_submit" 
+			style="width: 100px; height: 35px; font-weight: 20px; font-weight: bold; " 
+			value="Submit">
+			<label id="lbl_count" 
+			style="display: none; height: 35px; width: 50px; text-align: right; 
+			padding: 5px; "></label>
+		</p>
+	</form>
+	</div>
+</div>
+<div>
+	<div>
+		<h3 class="h3_sample">Image Display Sample</h3>
+	</div>
+	<div style="text-align: center;width: 100%;padding: 10px;">
+		<img src="/Sales/Images/krish.jpeg" style="width: 400px; height: 400px;">
+	</div>
+	<div style="text-align: center;width: 100%;padding: 10px;">
+		<img src="/Sales/Images/Diana.jpeg" style="width: 400px; height: 500px;">
+	</div>
+	<div style="text-align: center;width: 100%;padding: 10px;">
+		<img src="/Sales/Images/car.jpeg" style="width: 400px; height: 400px;">
+	</div>
+	<div style="text-align: center;width: 100%;padding: 10px;">
+		<img src="/Sales/Images/krish.png" style="width: 600px; height: 600px;">
+	</div>
+</div>
+<script>
+	var inp_submit = document.querySelector("#inp_submit")
+	var btn_sub_data = document.querySelector("#btn_sub_data")
+	var sintId = 0
+	
+	document.addEventListener('DOMContentLoaded' , () => {
+		document.getElementById('lbl_count').textContent = ''
+		document.getElementById('inp_submit').style.backgroundColor = 'lightgray'	
+		document.getElementById('inp_submit').style.color = 'Darkblue'		
+		document.getElementById('inp_submit').style.font.weight = 'bold'				
+	})
+	
+	inp_submit.addEventListener("click" , function(e){
+		var fdata = new FormData();
+		var inp_files = document.querySelector("#inp_file").files
+		var findx = 0;
+		// inp_files.forEach((file, indx)=>{
+		// 	fdata.append("file_" & (indx+1) , file )
+		// })
+
+		for(var file of inp_files){
+			fdata.append("file_" & (findx+1) , file )
+			findx++;
+		}
+
+		fdata.append("inp_name" , document.querySelector("#inp_name").value)
+		fdata.append("inp_desig" , document.querySelector("#inp_desig").value)
+		fdata.append("inp_mobile" , document.querySelector("#inp_mobile").value)
+
+		document.getElementById('inp_submit').disabled = true		
+		sendData(fdata)
+	})
+
+	document.getElementById("btn_sub_data").addEventListener("click" , function(e){
+		var name =  document.getElementById('inp_name').value
+		var desig = document.getElementById('inp_desig').value
+	    var postData = `Name=${name}&Desig=${desig}`
+		$.ajax({
+			method: 'POST' ,
+			url: 'http://127.0.0.1:8080/Sales/' ,
+			data: postData ,
+			crossDomain: true,
+			processData: false,
+			cache: true,
+			dataType: 'text' ,
+			contentType: false,	
+			
+			// xhrFields :{
+			// 	responseType: 'text' ,
+			// 	withCredentials: true,
+			// },		
+			//success: function(xhr, result, error){			
+			success: function(result){			
+				//alert(result)
+			}
+		}).done(function(xhr, msg, error){
+			alert(xhr)
+		})
+		
+	})
+
+	document.getElementById("btn_get_qry").addEventListener("click" , function(e){
+		var name =  document.getElementById('inp_name_get').value
+		var desig = document.getElementById('inp_desig_get').value
+	    //var postData = `Name=${name}&Desig=${desig}`
+		
+		var postData =  {
+			'name' : name , 'Desig' : desig , 
+		}
+		
+		postData["Prof"] = {desig: "C++ Specialist" , depart: "IT"}
+		postData["score"] = [140, 130, 210, 100, 130 ]
+		
+		<!-- postData = JSON.parse('{"name":"mahesh","age":56,"prof":{"desig":"C++ Programer","Depart":"IT"}}') -->
+		
+		
+		
+		$.ajax({
+			method: 'GET' ,
+			url: 'http://127.0.0.1:8080/Sales/' ,
+			//data: postData ,
+			contentType: 'application/json',  //  'text/json' ,
+			<!-- crossDomain: true, -->
+			<!-- processData: false, -->
+			data:  {getData: JSON.stringify(postData)} ,
+			<!-- cache: true, -->
+			dataType: 'text' ,
+			<!-- contentType: false,	 -->
+			
+			// xhrFields :{
+			// 	responseType: 'text' ,
+			// 	withCredentials: true,
+			// },		
+			//success: function(xhr, result, error){			
+			success: function(result){			
+				//alert(result)
+			}
+		}).done(function(xhr, msg, error){
+			alert(xhr)
+		})
+		
+	})
+
+	function sendData(fdata){
+		let cntInt = 1
+		document.getElementById('lbl_count').style.backgroundColor = 'darkblue'	
+		document.getElementById('lbl_count').style.color = 'white'		
+		document.getElementById('lbl_count').style.display = 'block'	
+		document.getElementById('lbl_count').textContent = ''
+		
+		sintId =  setInterval(() => { 		
+		    let pstyle = ''
+			document.getElementById('lbl_count').textContent = (cntInt++)
+			pstyle =  (cntInt % 2) ? '3px solid maroon' : '3px solid transparent' 
+			document.getElementById('lbl_count').parentNode.style.border = pstyle		
+		}, 1000)
+		
+		$.ajax({
+			method: 'POST' ,
+			url: 'http://127.0.0.1:8080/Sales/' ,
+			data: fdata ,
+			crossDomain: true,
+			processData: false,
+			cache: true,
+			dataType: 'text' ,
+			contentType: false,	
+			
+			// xhrFields :{
+			// 	responseType: 'text' ,
+			// 	withCredentials: true,
+			// },		
+			//success: function(xhr, result, error){			
+			success: function(result){
+				//alert(result)
+			}
+		}).done(function(xhr, msg, error){
+			clearInterval(sintId)		
+			//document.getElementById('inp_submit').style.backgroundColor = 'lightgray'	
+			//document.getElementById('inp_submit').style.color = 'darkblue'					
+			document.getElementById('inp_submit').disabled = false
+			document.getElementById('inp_submit').value	= 'Submit '	
+			document.getElementById('lbl_count').parentNode.style.border = '1px solid transparent'
+			alert(xhr)
+		})
+	}
+</script>
+</body>
+</html>
