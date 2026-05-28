@@ -1,18 +1,19 @@
 
-                                                   **       *     *   *      *       *    *     *   
-                                                   *  *     *      * *      * *      * *  *    * *  
-                                                   *   *    *       *      *   *     *  * *   *   * 
-                                                   *   *    *       *      *   *     *    *   *   * 
-                                                   *  *     *       *      *****     *    *   ***** 
-                                                   **       *       *      *   *     *    *   *   * 
+                                    **        *     *   *      *       *    *     *
+                                    *  *    *   *    * *      * *      * *  *    * *
+                                    *   *   *   *     *      *   *     *  * *   *   *
+                                    *   *   *   *     *      *   *     *    *   *   *
+                                    *  *    *****     *      *****     *    *   *****
+                                    **      *   *     *      *   *     *    *   *   *
 
 
 
-                                       *      *  *****  *****        ***** *****  *****  *       * ***** ***** 
-                                       *      *  *      *    *      *      *      *    *  *     *  *     *    * 
-                                       *  *   *  ****   *****       *****  *****  * ***    *   *   ***** * ***
-                                       * *  * *  *      *    *           * *      *   *     * *    *     *   * 
-                                       **    **  *****  *****       *****  *****  *    *     *     ***** *    *
+                        *      *  *****  *****        ***** *****  *****  *       * ***** *****
+                        *      *  *      *    *      *      *      *    *  *     *  *     *    *
+                        *  *   *  ****   *****       *****  *****  * ***    *   *   ***** * ***
+                        * *  * *  *      *    *           * *      *   *     * *    *     *   *
+                        **    **  *****  *****       *****  *****  *    *     *     ***** *    *
+
                                        
 
 This is simmple WEBSERVER, 
@@ -41,9 +42,10 @@ In forthcoming version update ,
 
 Things tobe done to run Diyana Webserver.
 
-Download [Diana.7z] from  [Webserver] Folder of GITHUB Site
+Create a Folder  Named [DAYANA] under Root Directory of (C or D). 
 
-Create a Folder  Named [DIYANA] under Root Directory of (C or D). 
+Download all files and folder from [Webserver\Dayana] Folder of GITHUB Site
+
 Extract all files from [Diana.7z] to  [DIYANA] folder you have created 
 on local drive.  
 Download [Webserver.exe] to [Diyana] local directory.
