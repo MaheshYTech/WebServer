@@ -61,7 +61,10 @@ on local drive.
 9.  Index.html 
 10. Webserver.exe   Main File 
 
-run Webserver.exe from [DIYANA] from your local system.
+type
+Webserver.exe start
+and press [Enter]
+from [DIYANA] from your local system.
 
 if its ask for dependency files. download other files from source folder , compile and build exe under visual studio 2019, and copy it to local [DIYANA] folder. and run it.
 
