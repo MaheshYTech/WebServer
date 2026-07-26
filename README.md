@@ -44,11 +44,11 @@ Things tobe done to run Diyana Webserver.
 
 Create a Folder  Named [DAYANA] under Root Directory of (C or D). 
 
-Download all files and folder from [Webserver\Dayana] Folder of GITHUB Site
+Download [Websrvr.7z] from [Webserver] Folder of GITHUB Site
 
-Extract all files from [Diana.7z] to  [DIYANA] folder you have created 
+Extract all files from [Websrvr.7z] to  [DIYANA] folder you have created 
 on local drive.  
-Download [Webserver.exe] to [Diyana] local directory.
+
 
 1.  Config          [Folder]
 2.  css             [Folder]
